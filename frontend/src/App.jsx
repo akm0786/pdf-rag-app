@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu } from 'lucide-react'; import Markdown from 'react-markdown';
+import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu, Menu, X, Trash2, FileText } from 'lucide-react';
+import Markdown from 'react-markdown';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -8,6 +9,8 @@ function App() {
   const [chat, setChat] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [learnedDocs, setLearnedDocs] = useState([]);
+  const [isFetchingDocs, setIsFetchingDocs] = useState(false);
 
   const chatEndRef = useRef(null);
 
@@ -18,6 +21,38 @@ function App() {
   useEffect(() => {
     scrollToBottom();
   }, [chat, isTyping]);
+
+  // Fetch documents on load
+  const fetchDocuments = async () => {
+    setIsFetchingDocs(true);
+    try {
+      const res = await axios.get('http://localhost:3000/documents');
+      setLearnedDocs(res.data);
+    } catch (err) {
+      console.error("Failed to fetch documents", err);
+    } finally {
+      setIsFetchingDocs(false);
+    }
+  };
+
+  // Run once when the app starts
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
+  // Handle Deletion
+  const handleDeleteDoc = async (filename) => {
+    const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/documents/${filename}`);
+      setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed from my memory.` }]);
+      fetchDocuments(); // Refresh the list
+    } catch (err) {
+      alert("Failed to delete document.");
+    }
+  };
 
   const handleUpload = async () => {
     if (!file) return;
@@ -34,6 +69,13 @@ function App() {
     } finally {
       setIsProcessing(false);
     }
+
+    await axios.post('http://localhost:3000/process', formData);
+    setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.** Ask me anything about it!` }]);
+    setFile(null);
+    setIsSidebarOpen(false);
+    fetchDocuments(); // <--- ADD THIS LINE
+
   };
 
   const handleAsk = async (e) => {
@@ -98,6 +140,36 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Add this right below the Knowledge Ingestion div inside the sidebar */}
+          <div style={{ marginTop: '32px' }}>
+            <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span>ACTIVE MEMORY</span>
+              {isFetchingDocs && <Loader2 size={12} className="animate-spin" />}
+            </label>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {learnedDocs.length === 0 && !isFetchingDocs ? (
+                <div style={{ fontSize: '0.875rem', color: '#6b7280', fontStyle: 'italic' }}>No documents loaded.</div>
+              ) : (
+                learnedDocs.map((docName, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#374151', padding: '10px 12px', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
+                      <FileText size={16} color="#9ca3af" flexShrink={0} />
+                      <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{docName}</span>
+                    </div>
+                    <button 
+                      onClick={() => handleDeleteDoc(docName)}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: '4px', display: 'flex', alignItems: 'center' }}
+                      title="Forget this document"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
 
         <div style={{ borderTop: '1px solid #374151', paddingTop: '20px' }}>
           <div style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Developer</div>

@@ -134,4 +134,32 @@ app.post('/ask', async (req, res) => {
     }
 });
 
+// --- GET: List all unique documents in the database ---
+app.get('/documents', async (req, res) => {
+    try {
+        // MongoDB's .distinct() efficiently grabs just the unique filenames
+        const uniqueDocs = await collection.distinct("source");
+        res.json(uniqueDocs);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- DELETE: Remove a specific document from the knowledge base ---
+app.delete('/documents/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        // Delete all vector chunks that belong to this specific PDF
+        const result = await collection.deleteMany({ source: filename });
+        
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Document not found." });
+        }
+        
+        res.json({ message: `Successfully forgot ${filename}` });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.listen(3000, () => console.log("🚀 Server running on http://localhost:3000"));
