@@ -21,14 +21,15 @@ const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2" })
 
 // --- MONGODB SETUP ---
 const client = new MongoClient(process.env.MONGO_URI);
-let collection;
+let collection; // For vectors
+let historyCollection; // NEW: For chat history
 
-// Connect to the database before starting the server
 async function connectDB() {
     try {
         await client.connect();
         const db = client.db('pdf_rag');
         collection = db.collection('documents');
+        historyCollection = db.collection('history'); // Initialize it
         console.log("✅ Connected to MongoDB Atlas!");
     } catch (err) {
         console.error("❌ MongoDB Connection Error:", err);
@@ -82,55 +83,70 @@ app.post('/process', upload.single('pdf'), async (req, res) => {
     }
 });
 
-// --- STEP 2: Ask using Atlas Vector Search ---
+// --- STEP 2: Ask using Atlas Vector Search (Stable JSON Version) ---
 app.post('/ask', async (req, res) => {
     try {
         const { question } = req.body;
-        
-        // 1. Embed the user's question
+
+        // 1. Generate embedding for the user's question
         const qEmbedding = await embeddingModel.embedContent(question);
         const qVector = qEmbedding.embedding.values;
 
-        // 2. The Magic: MongoDB Vector Search Pipeline
+        // 2. MongoDB Vector Search Pipeline
         const pipeline = [
             {
                 "$vectorSearch": {
-                    "index": "vector_index", // Must match the index name you created in Atlas
-                    "path": "vector",        // The field containing our coordinates
+                    "index": "vector_index",
+                    "path": "vector",
                     "queryVector": qVector,
-                    "numCandidates": 100,    // How many docs to look at total
-                    "limit": 3               // How many top results to return
+                    "numCandidates": 100,
+                    "limit": 3
                 }
             },
             {
-                "$project": { // Choose which fields to return (we don't need the giant vector back)
+                "$project": {
                     "_id": 0,
                     "text": 1,
                     "source": 1,
-                    "score": { "$meta": "vectorSearchScore" } 
+                    "score": { "$meta": "vectorSearchScore" }
                 }
             }
         ];
 
-        // Run the search against the cloud database
         const sorted = await collection.aggregate(pipeline).toArray();
 
         if (sorted.length === 0) {
-             return res.json({ answer: "I don't have any context to answer that. Please upload a PDF.", sources: [] });
+            return res.json({
+                answer: "I couldn't find relevant context in the uploaded documents.",
+                sources: []
+            });
         }
 
-        // 3. Pass context to Gemini
+        // 3. Construct Prompt with Context
         const context = sorted.map(r => r.text).join("\n\n");
         const prompt = `Use the provided context to answer the question. \n\nContext: ${context} \n\nQuestion: ${question}`;
 
+        // 4. Generate Content (Non-Streaming)
         const result = await model.generateContent(prompt);
         const response = await result.response;
+        const answerText = response.text();
+        const sourceDocs = [...new Set(sorted.map(s => s.source))];
 
-        // Note: Now we can return the actual filename (source) from MongoDB!
-        res.json({ answer: response.text(), sources: sorted.map(s => s.source) });
+        // 5. Save to History
+        await historyCollection.insertMany([
+            { role: 'user', text: question, timestamp: new Date() },
+            { role: 'ai', text: answerText, sources: sourceDocs, timestamp: new Date() }
+        ]);
+
+        // 6. Send simple JSON response
+        res.json({
+            answer: answerText,
+            sources: sourceDocs
+        });
+
     } catch (err) {
         console.error("Search Error:", err);
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: "An error occurred while processing your request." });
     }
 });
 
@@ -151,12 +167,22 @@ app.delete('/documents/:filename', async (req, res) => {
         const { filename } = req.params;
         // Delete all vector chunks that belong to this specific PDF
         const result = await collection.deleteMany({ source: filename });
-        
+
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: "Document not found." });
         }
-        
+
         res.json({ message: `Successfully forgot ${filename}` });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/history', async (req, res) => {
+    try {
+        // Fetch all messages, sorted by oldest to newest
+        const history = await historyCollection.find({}).sort({ timestamp: 1 }).toArray();
+        res.json(history);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

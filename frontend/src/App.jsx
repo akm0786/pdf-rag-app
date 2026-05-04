@@ -22,7 +22,6 @@ function App() {
     scrollToBottom();
   }, [chat, isTyping]);
 
-  // Fetch documents on load
   const fetchDocuments = async () => {
     setIsFetchingDocs(true);
     try {
@@ -35,20 +34,30 @@ function App() {
     }
   };
 
-  // Run once when the app starts
+  const fetchHistory = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/history');
+      console.log("Fetched History:", res.data); // DEBUG: Check your console (F12)
+      if (res.data && res.data.length > 0) {
+        setChat(res.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch chat history", err);
+    }
+  };
+
   useEffect(() => {
     fetchDocuments();
+    fetchHistory();
   }, []);
 
-  // Handle Deletion
   const handleDeleteDoc = async (filename) => {
     const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
     if (!confirmDelete) return;
-
     try {
       await axios.delete(`http://localhost:3000/documents/${filename}`);
-      setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed from my memory.` }]);
-      fetchDocuments(); // Refresh the list
+      setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed.` }]);
+      fetchDocuments();
     } catch (err) {
       alert("Failed to delete document.");
     }
@@ -61,42 +70,47 @@ function App() {
     formData.append('pdf', file);
 
     try {
-      await axios.post('http://localhost:3000/process', formData);
-      setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.** Ask me anything about it!` }]);
+      const res = await axios.post('http://localhost:3000/process', formData);
+      setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.**` }]);
       setFile(null);
+      fetchDocuments(); // Refresh list
     } catch (err) {
-      alert("Error processing PDF");
+      alert(err.response?.data?.error || "Error processing PDF");
     } finally {
       setIsProcessing(false);
     }
-
-    await axios.post('http://localhost:3000/process', formData);
-    setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.** Ask me anything about it!` }]);
-    setFile(null);
-    setIsSidebarOpen(false);
-    fetchDocuments(); // <--- ADD THIS LINE
-
   };
 
   const handleAsk = async (e) => {
     if (e) e.preventDefault();
+    // 1. Prevent double-clicking or empty questions
     if (!question.trim() || isTyping) return;
 
     const userMsg = { role: 'user', text: question };
-    setChat(prev => [...prev, userMsg]); // Preserves history correctly
+    setChat(prev => [...prev, userMsg]);
     setQuestion("");
-    setIsTyping(true);
+    setIsTyping(true); // Start the dots
 
     try {
       const res = await axios.post('http://localhost:3000/ask', { question });
+
+      // 2. Kill the dots IMMEDIATELY before updating the chat
+      setIsTyping(false);
+
       setChat(prev => [...prev, {
         role: 'ai',
         text: res.data.answer,
         sources: res.data.sources
       }]);
     } catch (err) {
-      setChat(prev => [...prev, { role: 'ai', text: "❌ Error connecting to server." }]);
+      console.error("Chat Error:", err);
+      setIsTyping(false); // Kill dots on error too
+      setChat(prev => [...prev, {
+        role: 'ai',
+        text: "❌ Connection error. Please try again."
+      }]);
     } finally {
+      // 3. Absolute safety: ensures dots are gone no matter what
       setIsTyping(false);
     }
   };
@@ -142,34 +156,34 @@ function App() {
         </div>
 
         {/* Add this right below the Knowledge Ingestion div inside the sidebar */}
-          <div style={{ marginTop: '32px' }}>
-            <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span>ACTIVE MEMORY</span>
-              {isFetchingDocs && <Loader2 size={12} className="animate-spin" />}
-            </label>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {learnedDocs.length === 0 && !isFetchingDocs ? (
-                <div style={{ fontSize: '0.875rem', color: '#6b7280', fontStyle: 'italic' }}>No documents loaded.</div>
-              ) : (
-                learnedDocs.map((docName, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#374151', padding: '10px 12px', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-                      <FileText size={16} color="#9ca3af" flexShrink={0} />
-                      <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{docName}</span>
-                    </div>
-                    <button 
-                      onClick={() => handleDeleteDoc(docName)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: '4px', display: 'flex', alignItems: 'center' }}
-                      title="Forget this document"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+        <div style={{ marginTop: '32px' }}>
+          <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>ACTIVE MEMORY</span>
+            {isFetchingDocs && <Loader2 size={12} className="animate-spin" />}
+          </label>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {learnedDocs.length === 0 && !isFetchingDocs ? (
+              <div style={{ fontSize: '0.875rem', color: '#6b7280', fontStyle: 'italic' }}>No documents loaded.</div>
+            ) : (
+              learnedDocs.map((docName, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#374151', padding: '10px 12px', borderRadius: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
+                    <FileText size={16} color="#9ca3af" flexShrink={0} />
+                    <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{docName}</span>
                   </div>
-                ))
-              )}
-            </div>
+                  <button
+                    onClick={() => handleDeleteDoc(docName)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    title="Forget this document"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))
+            )}
           </div>
+        </div>
 
         <div style={{ borderTop: '1px solid #374151', paddingTop: '20px' }}>
           <div style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Developer</div>
@@ -220,7 +234,7 @@ function App() {
                 <div className="markdown-content">
                   <Markdown>{msg.text}</Markdown>
                 </div>
-                {msg.sources && (
+                {msg.sources && msg.sources.length > 0 && (
                   <div style={{ marginTop: '12px', fontSize: '0.75rem', opacity: 0.8, borderTop: '1px solid rgba(0,0,0,0.1)', paddingTop: '8px' }}>
                     <Database size={12} style={{ marginRight: '4px', display: 'inline' }} />
                     Context: {msg.sources.join(" | ")}
