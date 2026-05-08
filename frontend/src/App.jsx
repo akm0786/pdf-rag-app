@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu, Menu, X, Trash2, FileText } from 'lucide-react';
+import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu, Menu, X, Trash2, FileText, LogOut } from 'lucide-react';
 import Markdown from 'react-markdown';
+import Auth from './Auth';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -11,6 +12,22 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [learnedDocs, setLearnedDocs] = useState([]);
   const [isFetchingDocs, setIsFetchingDocs] = useState(false);
+  // 1. Add a new state for authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+
+  const handleLogout = () => {
+    // 1. Clear sensitive data from storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+
+    // 2. Clear application state so the next user starts fresh
+    setChat([]);
+    setLearnedDocs([]);
+    setFile(null);
+
+    // 3. Switch back to Auth screen
+    setIsAuthenticated(false);
+  };
 
   const chatEndRef = useRef(null);
 
@@ -34,22 +51,28 @@ function App() {
     }
   };
 
+  // Example for fetchHistory
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/history');
-      console.log("Fetched History:", res.data); // DEBUG: Check your console (F12)
-      if (res.data && res.data.length > 0) {
-        setChat(res.data);
-      }
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:3000/history', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.length > 0) setChat(res.data);
     } catch (err) {
+      if (err.response?.status === 403) handleLogout(); // Token expired
       console.error("Failed to fetch chat history", err);
     }
   };
 
   useEffect(() => {
-    fetchDocuments();
-    fetchHistory();
-  }, []);
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      fetchDocuments();
+      fetchHistory();
+    }
+  }, [isAuthenticated]);
 
   const handleDeleteDoc = async (filename) => {
     const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
@@ -114,6 +137,10 @@ function App() {
       setIsTyping(false);
     }
   };
+
+  if (!isAuthenticated) {
+    return <Auth onLoginSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>
@@ -185,9 +212,38 @@ function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid #374151', paddingTop: '20px' }}>
-          <div style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Developer</div>
-          <div style={{ fontWeight: '600' }}>Abhishek Mishra</div>
+        <div style={{ borderTop: '1px solid #374151', paddingTop: '20px', marginTop: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Logged in as
+              </div>
+              <div style={{ fontWeight: '600', color: '#fff', fontSize: '0.875rem', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '180px' }}>
+                {localStorage.getItem('userEmail') || 'Abhishek Mishra'}
+              </div>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                background: '#374151',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '8px',
+                cursor: 'pointer',
+                color: '#ef4444',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background 0.2s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.background = '#4b5563'}
+              onMouseOut={(e) => e.currentTarget.style.background = '#374151'}
+              title="Log Out"
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
         </div>
       </aside>
 

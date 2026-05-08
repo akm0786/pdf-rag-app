@@ -7,6 +7,8 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MongoClient } from 'mongodb'; // NEW: MongoDB Driver
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 const app = express();
@@ -23,13 +25,19 @@ const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2" })
 const client = new MongoClient(process.env.MONGO_URI);
 let collection; // For vectors
 let historyCollection; // NEW: For chat history
+let usersCollection; // NEW: For user credentials
 
 async function connectDB() {
     try {
         await client.connect();
         const db = client.db('pdf_rag');
         collection = db.collection('documents');
-        historyCollection = db.collection('history'); // Initialize it
+        historyCollection = db.collection('history');
+        usersCollection = db.collection('users'); // Initialize users collection
+
+        // Create a unique index for email to prevent duplicate signups
+        await usersCollection.createIndex({ email: 1 }, { unique: true });
+
         console.log("✅ Connected to MongoDB Atlas!");
     } catch (err) {
         console.error("❌ MongoDB Connection Error:", err);
@@ -37,8 +45,66 @@ async function connectDB() {
 }
 connectDB();
 
+// -- AUTH: Register a new User ---
+
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // hash the passoword before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await usersCollection.insertOne({ email, password: hashedPassword, createdAt: new Date() });
+
+        res.status(201).json({ message: "User registered successfully" });
+    } catch (err) {
+        if (err.code === 11000) {
+            res.status(400).json({ message: "User already exists" });
+        } else {
+            res.status(500).json({ error: err.message });
+        }
+    }
+})
+
+// --- AUTH: Login User & Generate Token ---
+
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await usersCollection.findOne({ email });
+
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // generate a JWT containing the User ID
+        const token = jwt.sign(
+            { userId: user._id, email: user.email },
+            process.env.JWT_SECRET || "secret1212",
+            { expiresIn: "24h" }
+        )
+        res.json({ token, email: user.email });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+})
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) return res.status(401).json({ error: "Access denied. No token provided." });
+
+    jwt.verify(token, process.env.JWT_SECRET || "secret1212", (err, user) => {
+        if (err) return res.status(403).json({ error: "Invalid token." });
+        req.user = user; // Add user info (userId) to the request object
+        next();
+    })
+
+}
+
 // --- STEP 1: Process & Save to MongoDB ---
-app.post('/process', upload.single('pdf'), async (req, res) => {
+app.post('/process', authenticateToken, upload.single('pdf'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
@@ -67,6 +133,7 @@ app.post('/process', upload.single('pdf'), async (req, res) => {
             text: chunks[index].pageContent,
             vector: emb.values,
             source: req.file.originalname,
+            userId: req.user.userId, // 👈 Link to the logged-in user
             uploadedAt: new Date() // Good practice for real apps
         }));
 
@@ -84,7 +151,7 @@ app.post('/process', upload.single('pdf'), async (req, res) => {
 });
 
 // --- STEP 2: Ask using Atlas Vector Search (Stable JSON Version) ---
-app.post('/ask', async (req, res) => {
+app.post('/ask', authenticateToken, async (req, res) => {
     try {
         const { question } = req.body;
 
@@ -100,7 +167,8 @@ app.post('/ask', async (req, res) => {
                     "path": "vector",
                     "queryVector": qVector,
                     "numCandidates": 100,
-                    "limit": 3
+                    "limit": 5,
+                    "filter": { "userId": { "$eq": req.user.userId } }
                 }
             },
             {
@@ -134,8 +202,19 @@ app.post('/ask', async (req, res) => {
 
         // 5. Save to History
         await historyCollection.insertMany([
-            { role: 'user', text: question, timestamp: new Date() },
-            { role: 'ai', text: answerText, sources: sourceDocs, timestamp: new Date() }
+            {
+                userId: req.user.userId,
+                role: 'user',
+                text: question,
+                timestamp: new Date()
+            },
+            {
+                userId: req.user.userId,
+                role: 'ai',
+                text: answerText,
+                sources: sourceDocs,
+                timestamp: new Date()
+            }
         ]);
 
         // 6. Send simple JSON response
@@ -151,10 +230,10 @@ app.post('/ask', async (req, res) => {
 });
 
 // --- GET: List all unique documents in the database ---
-app.get('/documents', async (req, res) => {
+app.get('/documents', authenticateToken, async (req, res) => {
     try {
-        // MongoDB's .distinct() efficiently grabs just the unique filenames
-        const uniqueDocs = await collection.distinct("source");
+        // Add the filter object as the second argument
+        const uniqueDocs = await collection.distinct("source", { userId: req.user.userId });
         res.json(uniqueDocs);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -162,23 +241,18 @@ app.get('/documents', async (req, res) => {
 });
 
 // --- DELETE: Remove a specific document from the knowledge base ---
-app.delete('/documents/:filename', async (req, res) => {
+app.delete('/documents/:filename', authenticateToken, async (req, res) => {
     try {
         const { filename } = req.params;
-        // Delete all vector chunks that belong to this specific PDF
-        const result = await collection.deleteMany({ source: filename });
-
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ error: "Document not found." });
-        }
-
-        res.json({ message: `Successfully forgot ${filename}` });
+        // Ensure we only delete chunks belonging to THIS user
+        await collection.deleteMany({ source: filename, userId: req.user.userId });
+        res.json({ message: "Deleted" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-app.get('/history', async (req, res) => {
+app.get('/history', authenticateToken, async (req, res) => {
     try {
         // Fetch all messages, sorted by oldest to newest
         const history = await historyCollection.find({}).sort({ timestamp: 1 }).toArray();
