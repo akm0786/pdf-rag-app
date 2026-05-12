@@ -123,7 +123,8 @@ function App() {
       setChat(prev => [...prev, {
         role: 'ai',
         text: res.data.answer,
-        sources: res.data.sources
+        sources: res.data.sources,
+        contextChunks: res.data.contextChunks
       }]);
     } catch (err) {
       console.error("Chat Error:", err);
@@ -297,6 +298,32 @@ function App() {
                   </div>
                 )}
               </div>
+              {msg.role === 'ai' && msg.contextChunks && (
+                <div style={{ marginTop: '16px' }}>
+                  <details style={{ cursor: 'pointer', fontSize: '0.85rem', color: '#6b7280' }}>
+                    <summary style={{ fontWeight: '600', color: '#3b82f6', marginBottom: '8px' }}>
+                      🔍 View Reference Snippets
+                    </summary>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {msg.contextChunks.map((chunk, idx) => (
+                        <div key={idx} style={{
+                          backgroundColor: '#1f2937',
+                          padding: '12px',
+                          borderRadius: '8px',
+                          borderLeft: '4px solid #3b82f6',
+                          color: '#d1d5db',
+                          fontStyle: 'italic'
+                        }}>
+                          "{chunk.text}"
+                          <div style={{ fontSize: '0.7rem', marginTop: '8px', opacity: 0.6, textAlign: 'right' }}>
+                            — Extracted from {chunk.source}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                </div>
+              )}
             </div>
           ))}
 

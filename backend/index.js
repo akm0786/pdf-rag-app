@@ -190,6 +190,12 @@ app.post('/ask', authenticateToken, async (req, res) => {
             });
         }
 
+        const sourceDocs = [...new Set(sorted.map(s => s.source))];
+        const contextChunks = sorted.map(s => ({
+            text: s.text,
+            source: s.source
+        }));
+
         // 3. Construct Prompt with Context
         const context = sorted.map(r => r.text).join("\n\n");
         const prompt = `Use the provided context to answer the question. \n\nContext: ${context} \n\nQuestion: ${question}`;
@@ -198,7 +204,7 @@ app.post('/ask', authenticateToken, async (req, res) => {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const answerText = response.text();
-        const sourceDocs = [...new Set(sorted.map(s => s.source))];
+        // const sourceDocs = [...new Set(sorted.map(s => s.source))];
 
         // 5. Save to History
         await historyCollection.insertMany([
@@ -206,6 +212,7 @@ app.post('/ask', authenticateToken, async (req, res) => {
                 userId: req.user.userId,
                 role: 'user',
                 text: question,
+                contextChunks: contextChunks,
                 timestamp: new Date()
             },
             {
@@ -220,7 +227,8 @@ app.post('/ask', authenticateToken, async (req, res) => {
         // 6. Send simple JSON response
         res.json({
             answer: answerText,
-            sources: sourceDocs
+            sources: sourceDocs,
+            contextChunks: contextChunks
         });
 
     } catch (err) {
@@ -254,8 +262,12 @@ app.delete('/documents/:filename', authenticateToken, async (req, res) => {
 
 app.get('/history', authenticateToken, async (req, res) => {
     try {
-        // Fetch all messages, sorted by oldest to newest
-        const history = await historyCollection.find({}).sort({ timestamp: 1 }).toArray();
+        // We MUST filter by the userId from the token
+        const history = await historyCollection
+            .find({ userId: req.user.userId })
+            .sort({ timestamp: 1 })
+            .toArray();
+
         res.json(history);
     } catch (err) {
         res.status(500).json({ error: err.message });
