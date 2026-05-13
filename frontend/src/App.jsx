@@ -14,6 +14,7 @@ function App() {
   const [isFetchingDocs, setIsFetchingDocs] = useState(false);
   // 1. Add a new state for authentication
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const api = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   const handleLogout = () => {
     // 1. Clear sensitive data from storage
@@ -42,7 +43,7 @@ function App() {
   const fetchDocuments = async () => {
     setIsFetchingDocs(true);
     try {
-      const res = await axios.get('http://localhost:3000/documents');
+      const res = await axios.get(`${api}/documents`);
       setLearnedDocs(res.data);
     } catch (err) {
       console.error("Failed to fetch documents", err);
@@ -55,7 +56,7 @@ function App() {
   const fetchHistory = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/history', {
+      const res = await axios.get(`${api}/history`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data.length > 0) setChat(res.data);
@@ -78,7 +79,7 @@ function App() {
     const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
     if (!confirmDelete) return;
     try {
-      await axios.delete(`http://localhost:3000/documents/${filename}`);
+      await axios.delete(`${api}/documents/${filename}`);
       setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed.` }]);
       fetchDocuments();
     } catch (err) {
@@ -93,7 +94,7 @@ function App() {
     formData.append('pdf', file);
 
     try {
-      const res = await axios.post('http://localhost:3000/process', formData);
+      const res = await axios.post(`${api}/process`, formData);
       setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.**` }]);
       setFile(null);
       fetchDocuments(); // Refresh list
@@ -115,7 +116,7 @@ function App() {
     setIsTyping(true); // Start the dots
 
     try {
-      const res = await axios.post('http://localhost:3000/ask', { question });
+      const res = await axios.post(`${api}/ask`, { question });
 
       // 2. Kill the dots IMMEDIATELY before updating the chat
       setIsTyping(false);

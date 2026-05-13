@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Mail, Lock, Cpu, ArrowRight, UserPlus, LogIn } from 'lucide-react';
+const api = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function Auth({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,7 +15,7 @@ function Auth({ onLoginSuccess }) {
     const endpoint = isLogin ? '/login' : '/register';
 
     try {
-      const res = await axios.post(`http://localhost:3000${endpoint}`, { email, password });
+      const res = await axios.post(`${api}${endpoint}`, { email, password });
       if (isLogin) {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('userEmail', res.data.email);
