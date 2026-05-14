@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { authService } from './services/api';
-import { Mail, Lock, Cpu, ArrowRight, UserPlus, LogIn, Loader2 } from 'lucide-react';
+import { Mail, Lock, Cpu, ArrowRight, Loader2, Sparkles, UserPlus, LogIn } from 'lucide-react';
 
 export default function Auth({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    // const endpoint = isLogin ? '/login' : '/register';
+    setIsLoading(true);
 
     try {
-      // const res = await axios.post(`${api}${endpoint}`, { email, password });
-
       if (isLogin) {
         const res = await authService.login({ email, password });
         localStorage.setItem('token', res.data.token);
@@ -29,92 +28,178 @@ export default function Auth({ onLoginSuccess }) {
     } catch (err) {
       setError(err.response?.data?.error || "Authentication failed");
     } finally {
-      // setIsLogin(false); // Removed: This was switching to register mode after every attempt
+      setIsLoading(false);
     }
   };
 
   return (
     <div style={{
-      height: '100vh',
+      minHeight: '100vh',
       width: '100vw',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#111827',
-      padding: '20px', // Prevents card from touching screen edges on mobile
-      boxSizing: 'border-box'
+      background: 'radial-gradient(circle at top right, #1e1b4b, #030712)',
+      padding: '20px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
+      {/* Decorative Orbs */}
       <div style={{
+        position: 'absolute',
+        top: '10%',
+        right: '10%',
+        width: '300px',
+        height: '300px',
+        background: 'var(--primary)',
+        filter: 'blur(120px)',
+        opacity: 0.15,
+        borderRadius: '50%'
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '10%',
+        left: '10%',
+        width: '400px',
+        height: '400px',
+        background: 'var(--secondary)',
+        filter: 'blur(150px)',
+        opacity: 0.1,
+        borderRadius: '50%'
+      }} />
+
+      <div className="glass-panel entrance-anim" style={{
         width: '100%',
-        maxWidth: '400px', // Card shrinks on small screens but stops at 400px
-        padding: 'clamp(20px, 5vw, 40px)', // Responsive padding
-        backgroundColor: '#1f2937',
-        borderRadius: '16px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-        boxSizing: 'border-box'
+        maxWidth: '440px',
+        padding: '40px',
+        borderRadius: '24px',
+        position: 'relative',
+        zIndex: 1
       }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
-          <div style={{ backgroundColor: '#3b82f6', padding: '12px', borderRadius: '12px' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, var(--primary), var(--secondary))',
+            padding: '16px',
+            borderRadius: '16px',
+            boxShadow: '0 0 20px var(--primary-glow)'
+          }}>
             <Cpu size={32} color="white" />
           </div>
         </div>
 
-        <h2 style={{ color: 'white', textAlign: 'center', fontSize: '1.5rem', marginBottom: '8px' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '1.75rem', fontWeight: '700', marginBottom: '8px', letterSpacing: '-0.02em' }}>
           {isLogin ? 'Welcome Back' : 'Create Account'}
         </h2>
-        <p style={{ color: '#9ca3af', textAlign: 'center', marginBottom: '32px', fontSize: '0.875rem' }}>
-          {isLogin ? 'Access your private neural knowledge base' : 'Start building your persistent AI memory'}
+        <p style={{ color: 'var(--text-muted)', textAlign: 'center', marginBottom: '32px', fontSize: '0.925rem' }}>
+          {isLogin ? 'Securely access your neural knowledge base' : 'Experience the future of personal AI memory'}
         </p>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280' }} />
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ position: 'relative' }}>
+            <Mail size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             <input
               type="email" placeholder="Email Address" required
               style={{
                 width: '100%',
-                padding: '12px 12px 12px 40px',
-                backgroundColor: '#374151',
-                border: '1px solid #4b5563',
-                borderRadius: '8px',
+                padding: '14px 14px 14px 44px',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '12px',
                 color: 'white',
+                fontSize: '0.95rem',
                 outline: 'none',
-                boxSizing: 'border-box' // 👈 This is the magic fix
+                transition: 'border-color 0.2s',
               }}
+              className="focus-ring"
               value={email} onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280' }} />
+
+          <div style={{ position: 'relative' }}>
+            <Lock size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             <input
               type="password" placeholder="Password" required
               style={{
                 width: '100%',
-                padding: '12px 12px 12px 40px',
-                backgroundColor: '#374151',
-                border: '1px solid #4b5563',
-                borderRadius: '8px',
+                padding: '14px 14px 14px 44px',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '12px',
                 color: 'white',
+                fontSize: '0.95rem',
                 outline: 'none',
-                boxSizing: 'border-box' // 👈 Essential for responsive inputs
               }}
               value={password} onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          {error && <div style={{ color: '#ef4444', fontSize: '0.875rem', textAlign: 'center' }}>{error}</div>}
+          {error && (
+            <div style={{
+              color: '#f87171',
+              fontSize: '0.85rem',
+              textAlign: 'center',
+              padding: '10px',
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              borderRadius: '8px',
+              border: '1px solid rgba(239, 68, 68, 0.2)'
+            }}>
+              {error}
+            </div>
+          )}
 
-          <button type="submit" style={{ width: '100%', padding: '12px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px' }}>
-            {isLogin ? 'Sign In' : 'Register'} <ArrowRight size={18} />
+          <button
+            type="submit"
+            disabled={isLoading}
+            style={{
+              width: '100%',
+              padding: '14px',
+              background: 'linear-gradient(90deg, var(--primary), var(--secondary))',
+              color: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              fontWeight: '600',
+              fontSize: '1rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              marginTop: '10px',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+              opacity: isLoading ? 0.7 : 1
+            }}
+          >
+            {isLoading ? <Loader2 className="animate-spin" size={20} /> : (
+              <>
+                {isLogin ? 'Access System' : 'Initialize Profile'}
+                <ArrowRight size={18} />
+              </>
+            )}
           </button>
         </form>
 
-        <button
-          onClick={() => setIsLogin(!isLogin)}
-          style={{ width: '100%', background: 'none', border: 'none', color: '#9ca3af', marginTop: '24px', cursor: 'pointer', fontSize: '0.875rem' }}
-        >
-          {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Log In"}
-        </button>
+        <div style={{
+          marginTop: '24px',
+          textAlign: 'center',
+          fontSize: '0.9rem',
+          color: 'var(--text-muted)'
+        }}>
+          {isLogin ? "New to the neural net?" : "System access active?"}
+          <button
+            onClick={() => setIsLogin(!isLogin)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--primary)',
+              marginLeft: '8px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            {isLogin ? "Create credentials" : "Log in here"}
+          </button>
+        </div>
       </div>
     </div>
   );
