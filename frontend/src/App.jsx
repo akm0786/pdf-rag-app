@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu, Menu, X, Trash2, FileText, LogOut } from 'lucide-react';
 import Markdown from 'react-markdown';
 import Auth from './Auth';
+import { documentService, chatService } from './services/api';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -14,7 +14,6 @@ function App() {
   const [isFetchingDocs, setIsFetchingDocs] = useState(false);
   // 1. Add a new state for authentication
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
-  const api = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   const handleLogout = () => {
     // 1. Clear sensitive data from storage
@@ -43,7 +42,8 @@ function App() {
   const fetchDocuments = async () => {
     setIsFetchingDocs(true);
     try {
-      const res = await axios.get(`${api}/documents`);
+      // const res = await axios.get(`${api}/documents`);
+      const res = await documentService.getAll();
       setLearnedDocs(res.data);
     } catch (err) {
       console.error("Failed to fetch documents", err);
@@ -55,13 +55,10 @@ function App() {
   // Example for fetchHistory
   const fetchHistory = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${api}/history`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (res.data.length > 0) setChat(res.data);
+      const res = await chatService.getHistory();
+      if (res.data && res.data.length > 0) setChat(res.data);
     } catch (err) {
-      if (err.response?.status === 403) handleLogout(); // Token expired
+      if (err.response?.status === 403 || err.response?.status === 401) handleLogout(); // Token expired
       console.error("Failed to fetch chat history", err);
     }
   };
@@ -69,7 +66,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       fetchDocuments();
       fetchHistory();
     }
@@ -79,7 +76,8 @@ function App() {
     const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
     if (!confirmDelete) return;
     try {
-      await axios.delete(`${api}/documents/${filename}`);
+      // await axios.delete(`${api}/documents/${filename}`);
+      await documentService.delete(filename);
       setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed.` }]);
       fetchDocuments();
     } catch (err) {
@@ -94,7 +92,8 @@ function App() {
     formData.append('pdf', file);
 
     try {
-      const res = await axios.post(`${api}/process`, formData);
+      // const res = await axios.post(`${api}/process`, formData);
+      await documentService.upload(formData);
       setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.**` }]);
       setFile(null);
       fetchDocuments(); // Refresh list
@@ -116,7 +115,8 @@ function App() {
     setIsTyping(true); // Start the dots
 
     try {
-      const res = await axios.post(`${api}/ask`, { question });
+      // const res = await axios.post(`${api}/ask`, { question });
+      const res = await chatService.ask(question);
 
       // 2. Kill the dots IMMEDIATELY before updating the chat
       setIsTyping(false);
@@ -302,8 +302,9 @@ function App() {
               {msg.role === 'ai' && msg.contextChunks && (
                 <div style={{ marginTop: '16px' }}>
                   <details style={{ cursor: 'pointer', fontSize: '0.85rem', color: '#6b7280' }}>
-                    <summary style={{ fontWeight: '600', color: '#3b82f6', marginBottom: '8px' }}>
-                      🔍 View Reference Snippets
+                    <summary style={{ fontWeight: '600', color: '#3b82f6', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Database size={14} />
+                      View Reference Snippets {msg.sources && `(${msg.sources.join(", ")})`}
                     </summary>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       {msg.contextChunks.map((chunk, idx) => (

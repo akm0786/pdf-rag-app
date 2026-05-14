@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Mail, Lock, Cpu, ArrowRight, UserPlus, LogIn } from 'lucide-react';
-const api = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { authService } from './services/api';
+import { Mail, Lock, Cpu, ArrowRight, UserPlus, LogIn, Loader2 } from 'lucide-react';
 
-function Auth({ onLoginSuccess }) {
+export default function Auth({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,20 +11,25 @@ function Auth({ onLoginSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    const endpoint = isLogin ? '/login' : '/register';
+    // const endpoint = isLogin ? '/login' : '/register';
 
     try {
-      const res = await axios.post(`${api}${endpoint}`, { email, password });
+      // const res = await axios.post(`${api}${endpoint}`, { email, password });
+
       if (isLogin) {
+        const res = await authService.login({ email, password });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('userEmail', res.data.email);
         onLoginSuccess();
       } else {
+        await authService.register({ email, password });
         alert("Registration successful! Please log in.");
         setIsLogin(true);
       }
     } catch (err) {
       setError(err.response?.data?.error || "Authentication failed");
+    } finally {
+      // setIsLogin(false); // Removed: This was switching to register mode after every attempt
     }
   };
 
@@ -115,5 +119,3 @@ function Auth({ onLoginSuccess }) {
     </div>
   );
 }
-
-export default Auth;
