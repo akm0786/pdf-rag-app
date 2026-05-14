@@ -116,7 +116,8 @@ function App() {
     setIsTyping(true);
 
     try {
-      const res = await chatService.askQuestion({ question: userQ });
+      const res = await chatService.ask(userQ);
+      // console.log(res.data);
       setChat(prev => [...prev, {
         role: 'ai',
         text: res.data.answer,
