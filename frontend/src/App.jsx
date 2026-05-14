@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Upload, Bot, User, Loader2, Database, Code, Cpu, Menu, X, Trash2, FileText, LogOut } from 'lucide-react';
+import { Send, Upload, Bot, User, Loader2, Database, Cpu, Menu, X, Trash2, FileText, LogOut, ChevronRight, MessageSquare, Sparkles } from 'lucide-react';
 import Markdown from 'react-markdown';
 import Auth from './Auth';
 import { documentService, chatService } from './services/api';
@@ -12,24 +12,23 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [learnedDocs, setLearnedDocs] = useState([]);
   const [isFetchingDocs, setIsFetchingDocs] = useState(false);
-  // 1. Add a new state for authentication
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 1024);
 
-  const handleLogout = () => {
-    // 1. Clear sensitive data from storage
-    localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
-
-    // 2. Clear application state so the next user starts fresh
-    setChat([]);
-    setLearnedDocs([]);
-    setFile(null);
-
-    // 3. Switch back to Auth screen
-    setIsAuthenticated(false);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const chatEndRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,10 +38,18 @@ function App() {
     scrollToBottom();
   }, [chat, isTyping]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+    setChat([]);
+    setLearnedDocs([]);
+    setFile(null);
+    setIsAuthenticated(false);
+  };
+
   const fetchDocuments = async () => {
     setIsFetchingDocs(true);
     try {
-      // const res = await axios.get(`${api}/documents`);
       const res = await documentService.getAll();
       setLearnedDocs(res.data);
     } catch (err) {
@@ -52,31 +59,25 @@ function App() {
     }
   };
 
-  // Example for fetchHistory
   const fetchHistory = async () => {
     try {
       const res = await chatService.getHistory();
-      if (res.data && res.data.length > 0) setChat(res.data);
+      if (res.data) setChat(res.data);
     } catch (err) {
-      if (err.response?.status === 403 || err.response?.status === 401) handleLogout(); // Token expired
-      console.error("Failed to fetch chat history", err);
+      if (err.response?.status === 403 || err.response?.status === 401) handleLogout();
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    if (isAuthenticated) {
       fetchDocuments();
       fetchHistory();
     }
   }, [isAuthenticated]);
 
   const handleDeleteDoc = async (filename) => {
-    const confirmDelete = window.confirm(`Are you sure you want the AI to forget ${filename}?`);
-    if (!confirmDelete) return;
+    if (!window.confirm(`Remove ${filename} from memory?`)) return;
     try {
-      // await axios.delete(`${api}/documents/${filename}`);
       await documentService.delete(filename);
       setChat(prev => [...prev, { role: 'ai', text: `🗑️ **${filename}** has been removed.` }]);
       fetchDocuments();
@@ -85,42 +86,37 @@ function App() {
     }
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
+  const handleUpload = async (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
     setIsProcessing(true);
     const formData = new FormData();
-    formData.append('pdf', file);
+    formData.append('pdf', selectedFile);
 
     try {
-      // const res = await axios.post(`${api}/process`, formData);
       await documentService.upload(formData);
-      setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${file.name}.**` }]);
-      setFile(null);
-      fetchDocuments(); // Refresh list
+      setChat(prev => [...prev, { role: 'ai', text: `✅ **Successfully trained on ${selectedFile.name}.**` }]);
+      fetchDocuments();
     } catch (err) {
-      alert(err.response?.data?.error || "Error processing PDF");
+      alert(err.response?.data?.error || "Failed to process document.");
     } finally {
       setIsProcessing(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   const handleAsk = async (e) => {
-    if (e) e.preventDefault();
-    // 1. Prevent double-clicking or empty questions
+    e.preventDefault();
     if (!question.trim() || isTyping) return;
 
-    const userMsg = { role: 'user', text: question };
-    setChat(prev => [...prev, userMsg]);
+    const userQ = question;
     setQuestion("");
-    setIsTyping(true); // Start the dots
+    setChat(prev => [...prev, { role: 'user', text: userQ }]);
+    setIsTyping(true);
 
     try {
-      // const res = await axios.post(`${api}/ask`, { question });
-      const res = await chatService.ask(question);
-
-      // 2. Kill the dots IMMEDIATELY before updating the chat
-      setIsTyping(false);
-
+      const res = await chatService.askQuestion({ question: userQ });
       setChat(prev => [...prev, {
         role: 'ai',
         text: res.data.answer,
@@ -128,239 +124,342 @@ function App() {
         contextChunks: res.data.contextChunks
       }]);
     } catch (err) {
-      console.error("Chat Error:", err);
-      setIsTyping(false); // Kill dots on error too
-      setChat(prev => [...prev, {
-        role: 'ai',
-        text: "❌ Connection error. Please try again."
-      }]);
+      setChat(prev => [...prev, { role: 'ai', text: "❌ Failed to connect to neural engine." }]);
     } finally {
-      // 3. Absolute safety: ensures dots are gone no matter what
       setIsTyping(false);
     }
   };
 
-  if (!isAuthenticated) {
-    return <Auth onLoginSuccess={() => setIsAuthenticated(true)} />;
-  }
+  if (!isAuthenticated) return <Auth onLoginSuccess={() => setIsAuthenticated(true)} />;
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', backgroundColor: 'var(--bg-main)', overflow: 'hidden' }}>
 
-      {/* SIDEBAR */}
-      <aside style={{ width: '320px', backgroundColor: '#1f2937', color: '#fff', display: 'flex', flexDirection: 'column', padding: '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '40px' }}>
-          <div style={{ backgroundColor: '#3b82f6', padding: '8px', borderRadius: '8px' }}>
-            <Cpu size={24} />
-          </div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', margin: 0 }}>RAG Engine v1.0</h2>
-        </div>
+      {/* Sidebar Overlay for Mobile */}
+      {sidebarOpen && window.innerWidth <= 1024 && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40, backdropFilter: 'blur(4px)' }}
+        />
+      )}
 
-        <div style={{ flex: 1 }}>
-          <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '8px', display: 'block' }}>KNOWLEDGE INGESTION</label>
-          <div style={{ backgroundColor: '#374151', padding: '16px', borderRadius: '12px', border: '1px dashed #4b5563' }}>
-            <input type="file" accept=".pdf" style={{ display: 'none' }} id="pdf-upload" onChange={(e) => setFile(e.target.files[0])} />
-            <label htmlFor="pdf-upload" style={{ cursor: 'pointer', textAlign: 'center', display: 'block' }}>
-              <Upload style={{ margin: '0 auto 8px auto', color: '#9ca3af' }} />
-              <div style={{ fontSize: '0.875rem', color: file ? '#fff' : '#9ca3af' }}>{file ? file.name : "Select PDF Document"}</div>
-            </label>
-            {file && (
-              <button
-                onClick={handleUpload}
-                disabled={isProcessing}
-                style={{ width: '100%', marginTop: '16px', padding: '8px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
-              >
-                {isProcessing ? <Loader2 size={16} className="animate-spin" /> : "Start Training"}
-              </button>
-            )}
-          </div>
-
-          <div style={{ marginTop: '32px' }}>
-            <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '12px', display: 'block' }}>SYSTEM STATUS</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '0.875rem' }}>
-              <div style={{ width: '8px', height: '8px', backgroundColor: '#10b981', borderRadius: '50%' }}></div>
-              Gemini 3 Flash Online
+      {/* Sidebar */}
+      <aside className="glass-panel" style={{
+        width: '300px',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        position: window.innerWidth <= 1024 ? 'fixed' : 'relative',
+        left: sidebarOpen ? 0 : '-300px',
+        transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        zIndex: 50,
+        borderRight: '1px solid var(--border)',
+        backgroundColor: 'var(--bg-surface)'
+      }}>
+        <div style={{ padding: '24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ background: 'var(--primary)', padding: '8px', borderRadius: '8px' }}>
+              <Cpu size={20} color="white" />
             </div>
+            <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>Neural PDF</span>
           </div>
+          {window.innerWidth <= 1024 && <X onClick={() => setSidebarOpen(false)} style={{ cursor: 'pointer' }} />}
         </div>
 
-        {/* Add this right below the Knowledge Ingestion div inside the sidebar */}
-        <div style={{ marginTop: '32px' }}>
-          <label style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span>ACTIVE MEMORY</span>
-            {isFetchingDocs && <Loader2 size={12} className="animate-spin" />}
-          </label>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {learnedDocs.length === 0 && !isFetchingDocs ? (
-              <div style={{ fontSize: '0.875rem', color: '#6b7280', fontStyle: 'italic' }}>No documents loaded.</div>
-            ) : (
-              learnedDocs.map((docName, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#374151', padding: '10px 12px', borderRadius: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-                    <FileText size={16} color="#9ca3af" flexShrink={0} />
-                    <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{docName}</span>
-                  </div>
-                  <button
-                    onClick={() => handleDeleteDoc(docName)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: '4px', display: 'flex', alignItems: 'center' }}
-                    title="Forget this document"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        <div style={{ borderTop: '1px solid #374151', paddingTop: '20px', marginTop: 'auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Logged in as
-              </div>
-              <div style={{ fontWeight: '600', color: '#fff', fontSize: '0.875rem', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '180px' }}>
-                {localStorage.getItem('userEmail') || 'Abhishek Mishra'}
-              </div>
-            </div>
-
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px', paddingLeft: '8px' }}>
+              Knowledge Base
+            </h3>
             <button
-              onClick={handleLogout}
+              onClick={() => fileInputRef.current.click()}
+              disabled={isProcessing}
               style={{
-                background: '#374151',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '8px',
+                width: '100%',
+                padding: '12px',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                border: '1px dashed var(--primary)',
+                borderRadius: '12px',
+                color: 'var(--primary)',
                 cursor: 'pointer',
-                color: '#ef4444',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'background 0.2s'
+                gap: '8px',
+                fontSize: '0.9rem',
+                fontWeight: '600',
+                transition: 'all 0.2s'
               }}
-              onMouseOver={(e) => e.currentTarget.style.background = '#4b5563'}
-              onMouseOut={(e) => e.currentTarget.style.background = '#374151'}
-              title="Log Out"
             >
-              <LogOut size={18} />
+              {isProcessing ? <Loader2 className="animate-spin" size={18} /> : <><Upload size={18} /> Train New PDF</>}
             </button>
+            <input type="file" ref={fileInputRef} onChange={handleUpload} accept=".pdf" style={{ display: 'none' }} />
           </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {learnedDocs.map((doc, idx) => (
+              <div key={idx} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '10px 12px',
+                borderRadius: '10px',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                fontSize: '0.875rem',
+                group: 'true'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
+                  <FileText size={16} color="var(--primary)" />
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{doc}</span>
+                </div>
+                <Trash2
+                  size={14}
+                  onClick={() => handleDeleteDoc(doc)}
+                  style={{ cursor: 'pointer', color: 'var(--text-muted)', opacity: 0.5 }}
+                />
+              </div>
+            ))}
+            {learnedDocs.length === 0 && !isFetchingDocs && (
+              <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                No active knowledge base.
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{ padding: '20px', borderTop: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--bg-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <User size={20} color="var(--text-muted)" />
+            </div>
+            <div style={{ overflow: 'hidden' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {localStorage.getItem('userEmail')}
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Connected</div>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: '10px',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: '10px',
+              color: '#f87171',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              fontSize: '0.875rem',
+              cursor: 'pointer'
+            }}
+          >
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </aside>
 
-      {/* MAIN CHAT AREA */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#fff' }}>
+      {/* Main Content */}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
 
-        {/* Chat Header */}
-        <header style={{ padding: '16px 32px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <h3 style={{ margin: 0, fontSize: '1.125rem' }}>Neural PDF Architect</h3>
-            <span style={{ fontSize: '0.875rem', color: '#6b7280' }}>Semantic Retrieval Engine</span>
+        {/* Header */}
+        <header style={{
+          height: '64px',
+          borderBottom: '1px solid var(--border)',
+          padding: '0 24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: 'rgba(3, 7, 18, 0.8)',
+          backdropFilter: 'blur(10px)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 30
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {!sidebarOpen && <Menu onClick={() => setSidebarOpen(true)} style={{ cursor: 'pointer' }} />}
+            <div style={{ fontSize: '0.9rem', fontWeight: '500', color: 'var(--text-muted)' }}>
+              Current Neural Session
+            </div>
           </div>
-          <Code style={{ cursor: 'pointer', color: '#6b7280' }} />        </header>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <Sparkles size={14} color="#fcd34d" /> Powered by Gemini 1.5 Flash
+          </div>
+        </header>
 
-        {/* Messages */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {chat.length === 0 && (
-            <div style={{ textAlign: 'center', marginTop: '10vh' }}>
-              <Bot size={64} style={{ color: '#e5e7eb', marginBottom: '16px' }} />
-              <h2 style={{ color: '#374151', margin: '0 0 8px 0' }}>How can I help you today?</h2>
-              <p style={{ color: '#6b7280', margin: 0 }}>Upload a document to start a contextual conversation.</p>
-            </div>
-          )}
-
-          {chat.map((msg, i) => (
-            <div key={i} style={{ display: 'flex', gap: '16px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }}>
-              <div style={{
-                width: '36px', height: '36px', borderRadius: '8px',
-                backgroundColor: msg.role === 'user' ? '#3b82f6' : '#111827',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', flexShrink: 0
-              }}>
-                {msg.role === 'user' ? <User size={20} /> : <Bot size={20} />}
-              </div>
-              <div style={{
-                maxWidth: '70%',
-                backgroundColor: msg.role === 'user' ? '#3b82f6' : '#f3f4f6',
-                color: msg.role === 'user' ? '#fff' : '#1f2937',
-                padding: '16px',
-                borderRadius: '16px',
-                borderTopRightRadius: msg.role === 'user' ? '2px' : '16px',
-                borderTopLeftRadius: msg.role === 'ai' ? '2px' : '16px',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-              }}>
-                <div className="markdown-content">
-                  <Markdown>{msg.text}</Markdown>
+        {/* Chat Area */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {chat.length === 0 && (
+              <div style={{ textAlign: 'center', marginTop: '15vh' }} className="entrance-anim">
+                <div style={{ background: 'rgba(59, 130, 246, 0.1)', width: '64px', height: '64px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+                  <MessageSquare size={32} color="var(--primary)" />
                 </div>
-                {msg.sources && msg.sources.length > 0 && (
-                  <div style={{ marginTop: '12px', fontSize: '0.75rem', opacity: 0.8, borderTop: '1px solid rgba(0,0,0,0.1)', paddingTop: '8px' }}>
-                    <Database size={12} style={{ marginRight: '4px', display: 'inline' }} />
-                    Context: {msg.sources.join(" | ")}
-                  </div>
-                )}
+                <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '12px' }}>How can I help you today?</h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '400px', margin: '0 auto' }}>
+                  Upload a PDF to build your private context, then ask any question.
+                </p>
               </div>
-              {msg.role === 'ai' && msg.contextChunks && (
-                <div style={{ marginTop: '16px' }}>
-                  <details style={{ cursor: 'pointer', fontSize: '0.85rem', color: '#6b7280' }}>
-                    <summary style={{ fontWeight: '600', color: '#3b82f6', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Database size={14} />
-                      View Reference Snippets {msg.sources && `(${msg.sources.join(", ")})`}
-                    </summary>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {msg.contextChunks.map((chunk, idx) => (
-                        <div key={idx} style={{
-                          backgroundColor: '#1f2937',
-                          padding: '12px',
-                          borderRadius: '8px',
-                          borderLeft: '4px solid #3b82f6',
-                          color: '#d1d5db',
-                          fontStyle: 'italic'
-                        }}>
-                          "{chunk.text}"
-                          <div style={{ fontSize: '0.7rem', marginTop: '8px', opacity: 0.6, textAlign: 'right' }}>
-                            — Extracted from {chunk.source}
-                          </div>
-                        </div>
-                      ))}
+            )}
+
+            {chat.map((msg, i) => (
+              <div key={i} className="entrance-anim" style={{
+                display: 'flex',
+                gap: '16px',
+                flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+                alignItems: 'flex-start'
+              }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '10px',
+                  backgroundColor: msg.role === 'user' ? 'var(--primary)' : 'var(--bg-accent)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}>
+                  {msg.role === 'user' ? <User size={20} color="white" /> : <Bot size={20} color="var(--primary)" />}
+                </div>
+
+                <div style={{
+                  maxWidth: 'calc(100% - 70px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                  gap: '8px'
+                }}>
+                  <div style={{
+                    padding: '14px 20px',
+                    borderRadius: '20px',
+                    borderTopLeftRadius: msg.role === 'ai' ? '4px' : '20px',
+                    borderTopRightRadius: msg.role === 'user' ? '4px' : '20px',
+                    backgroundColor: msg.role === 'user' ? 'var(--primary)' : 'var(--bg-surface)',
+                    border: '1px solid var(--border)',
+                    boxShadow: msg.role === 'user' ? '0 4px 15px var(--primary-glow)' : 'none'
+                  }}>
+                    <div className="markdown-content">
+                      <Markdown>{msg.text}</Markdown>
                     </div>
-                  </details>
-                </div>
-              )}
-            </div>
-          ))}
+                  </div>
 
-          {isTyping && (
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: '#111827', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                <Bot size={20} />
+                  {msg.role === 'ai' && msg.contextChunks && (
+                    <details style={{ width: '100%' }}>
+                      <summary style={{
+                        fontSize: '0.75rem',
+                        padding: '8px 12px',
+                        backgroundColor: 'rgba(255,255,255,0.03)',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        color: 'var(--text-muted)',
+                        listStyle: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}>
+                        <Database size={12} /> View Reference Snippets ({msg.sources?.join(", ")})
+                      </summary>
+                      <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {msg.contextChunks.map((chunk, idx) => (
+                          <div key={idx} style={{
+                            padding: '12px',
+                            backgroundColor: 'rgba(0,0,0,0.2)',
+                            borderRadius: '12px',
+                            borderLeft: '3px solid var(--primary)',
+                            fontSize: '0.85rem',
+                            color: '#d1d5db',
+                            fontStyle: 'italic'
+                          }}>
+                            "{chunk.text}"
+                            <div style={{ fontSize: '0.7rem', marginTop: '6px', opacity: 0.5, textAlign: 'right' }}>
+                              — {chunk.source}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </details>
+                  )}
+                </div>
               </div>
-              <div style={{ backgroundColor: '#f3f4f6', padding: '16px', borderRadius: '16px', borderTopLeftRadius: '2px' }}>
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
+            ))}
+            {isTyping && (
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--bg-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Loader2 className="animate-spin" size={20} color="var(--primary)" />
+                </div>
+                <div style={{ padding: '16px 24px', backgroundColor: 'var(--bg-surface)', borderRadius: '20px', borderTopLeftRadius: '4px', border: '1px solid var(--border)' }}>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    <div className="typing-dot" style={{ backgroundColor: 'var(--primary)' }}></div>
+                    <div className="typing-dot" style={{ backgroundColor: 'var(--primary)' }}></div>
+                    <div className="typing-dot" style={{ backgroundColor: 'var(--primary)' }}></div>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-          <div ref={chatEndRef} />
+            )}
+            <div ref={chatEndRef} />
+          </div>
         </div>
 
-        {/* Input Footer */}
-        <footer style={{ padding: '24px 32px', backgroundColor: '#fff' }}>
-          <form onSubmit={handleAsk} style={{ position: 'relative', maxWidth: '800px', margin: '0 auto' }}>
+        {/* Input Area */}
+        <div style={{
+          padding: '24px 16px',
+          backgroundColor: 'rgba(3, 7, 18, 0.8)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <form
+            onSubmit={handleAsk}
+            style={{
+              width: '100%',
+              maxWidth: '800px',
+              backgroundColor: 'var(--bg-surface)',
+              borderRadius: '20px',
+              border: '1px solid var(--border)',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)'
+            }}>
             <input
-              style={{ width: '100%', padding: '16px 60px 16px 20px', borderRadius: '12px', border: '1px solid #d1d5db', outline: 'none', fontSize: '1rem', boxSizing: 'border-box', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+              type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask a question about your knowledge base..."
+              placeholder="Query your knowledge base..."
+              style={{
+                flex: 1,
+                background: 'transparent',
+                border: 'none',
+                padding: '12px 16px',
+                color: 'white',
+                fontSize: '1rem',
+                outline: 'none'
+              }}
             />
-            <button type="submit" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', backgroundColor: '#3b82f6', color: '#fff', border: 'none', borderRadius: '8px', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button
+              type="submit"
+              disabled={!question.trim() || isTyping}
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '16px',
+                backgroundColor: question.trim() ? 'var(--primary)' : 'var(--bg-accent)',
+                border: 'none',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: question.trim() ? 'pointer' : 'default',
+                transition: 'all 0.2s'
+              }}
+            >
               <Send size={20} />
             </button>
           </form>
-          <div style={{ textAlign: 'center', fontSize: '0.75rem', color: '#9ca3af', marginTop: '12px' }}>
-            Experimental RAG AI. Answers are generated based on provided PDF context.
-          </div>
-        </footer>
+        </div>
       </main>
     </div>
   );
