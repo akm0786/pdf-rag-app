@@ -117,6 +117,7 @@ function App() {
 
     try {
       const res = await chatService.ask(userQ);
+      // console.log(res.data);
       setChat(prev => [...prev, {
         role: 'ai',
         text: res.data.answer,
