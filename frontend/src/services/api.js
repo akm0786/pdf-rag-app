@@ -20,11 +20,26 @@ apiClient.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+// 3.5. Response Interceptor: Handle expiration (401/403)
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            // Token expired or invalid
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            window.location.reload(); // Force reload to trigger Auth screen
+        }
+        return Promise.reject(error);
+    }
+);
+
 // 4. Export grouped API functions
 
 export const authService = {
     login: (credentials) => apiClient.post('/auth/login', credentials),
-    register: (userData) => apiClient.post('auth/register', userData)
+    register: (userData) => apiClient.post('auth/register', userData),
+    googleLogin: (idToken) => apiClient.post('/auth/google-login', { idToken })
 }
 
 export const documentService = {

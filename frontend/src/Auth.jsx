@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { authService } from './services/api';
 import { Mail, Lock, Cpu, ArrowRight, Loader2, Sparkles, UserPlus, LogIn } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Auth({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -30,6 +31,25 @@ export default function Auth({ onLoginSuccess }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const res = await authService.googleLogin(credentialResponse.credential);
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userEmail', res.data.email);
+      onLoginSuccess();
+    } catch (err) {
+      setError(err.response?.data?.error || "Google Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError("Google Login failed. Please try again.");
   };
 
   return (
@@ -177,6 +197,23 @@ export default function Auth({ onLoginSuccess }) {
             )}
           </button>
         </form>
+
+        <div style={{ margin: '24px 0', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '500' }}>OR</span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            theme="filled_black"
+            shape="pill"
+            text="continue_with"
+            width="100%"
+          />
+        </div>
 
         <div style={{
           marginTop: '24px',

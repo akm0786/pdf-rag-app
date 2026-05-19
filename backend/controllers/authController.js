@@ -49,7 +49,7 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { userId: user._id.toString(), email: user.email },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: '1h' }
         );
 
         res.json({ token, email: user.email });
@@ -59,4 +59,41 @@ const login = async (req, res) => {
     }
 };
 
-export { login, register };
+import { OAuth2Client } from 'google-auth-library';
+
+const client_oauth = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const googleLogin = async (req, res) => {
+    try {
+        const { idToken } = req.body;
+        const ticket = await client_oauth.verifyIdToken({
+            idToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { email, sub: googleId } = payload;
+
+        const usersCollection = client.db('rag_db').collection('users');
+        let user = await usersCollection.findOne({ email });
+
+        if (!user) {
+            // New user from Google
+            const newUser = { email, googleId, createdAt: new Date() };
+            const result = await usersCollection.insertOne(newUser);
+            user = { ...newUser, _id: result.insertedId };
+        }
+
+        const token = jwt.sign(
+            { userId: user._id.toString(), email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '12h' }
+        );
+
+        res.json({ token, email: user.email });
+    } catch (err) {
+        console.error("Google Login Error:", err);
+        res.status(500).json({ error: "Google authentication failed" });
+    }
+};
+
+export { login, register, googleLogin };
