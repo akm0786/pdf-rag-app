@@ -90,6 +90,14 @@ function App() {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
 
+    // Client-side file size limit: 5MB (5 * 1024 * 1024 bytes)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    if (selectedFile.size > MAX_FILE_SIZE) {
+      alert(`File size exceeds the 5MB limit. Please upload a smaller PDF.`);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
     setIsProcessing(true);
     const formData = new FormData();
     formData.append('pdf', selectedFile);
