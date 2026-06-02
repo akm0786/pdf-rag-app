@@ -1,0 +1,220 @@
+2026-06-01 12:40:44 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 12:40:44 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 13:31:57 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 13:45:13 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:22:41 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:23:31 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:26:41 [ERROR]: Refresh token verification failed: invalid signature
+2026-06-01 14:29:27 [ERROR]: TypeError: Cannot read properties of undefined (reading 'replace')
+    at new ChatGoogleGenerativeAI (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:428:29)
+    at getChatModel (file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:17:12)
+    at file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:100:27
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-06-01 14:29:27 [ERROR]: TypeError: Cannot read properties of undefined (reading 'replace')
+    at new ChatGoogleGenerativeAI (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:428:29)
+    at getChatModel (file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:17:12)
+    at file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:100:27
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-06-01 14:34:28 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:35:34 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:38:12 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:42:08 [ERROR]: MongoNetworkError: getaddrinfo ENOTFOUND ac-c9iqiz7-shard-00-02.rxynryl.mongodb.net
+    at TLSSocket.<anonymous> (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/mongodb/lib/cmap/connect.js:314:44)
+    at Object.onceWrapper (node:events:631:26)
+    at TLSSocket.emit (node:events:509:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+2026-06-01 14:43:05 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:43:05 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:51:38 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 21.819194101s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:51:38 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 21.819194101s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:52:25 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 34.219018056s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"34s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:52:25 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 34.219018056s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"34s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:42 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-02 17:44:37 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 22.584401834s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"22s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:44:37 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 22.584401834s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"22s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:45:06 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 53.732720908s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"53s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:45:06 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 53.732720908s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"53s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 18:01:03 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-2.5-flash-preview-05-20 is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 18:01:03 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-2.5-flash-preview-05-20 is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)

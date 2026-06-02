@@ -19,6 +19,7 @@ export default function Auth({ onLoginSuccess }) {
       if (isLogin) {
         const res = await authService.login({ email, password });
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
         localStorage.setItem('userEmail', res.data.email);
         onLoginSuccess();
       } else {
@@ -39,6 +40,7 @@ export default function Auth({ onLoginSuccess }) {
     try {
       const res = await authService.googleLogin(credentialResponse.credential);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('refreshToken', res.data.refreshToken);
       localStorage.setItem('userEmail', res.data.email);
       onLoginSuccess();
     } catch (err) {
