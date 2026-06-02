@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 import multer from 'multer';
 import authenticateToken from '../middleware/auth.js';
-import { processDocument, getDocuments, deleteDocument } from '../controllers/documentController.js';
+import { processDocument, getDocuments, deleteDocument, getJobs } from '../controllers/documentController.js';
 
 const upload = multer({
     dest: 'uploads/',
@@ -26,6 +26,7 @@ const uploadSingle = (req, res, next) => {
 router.use(authenticateToken);
 
 router.post('/process', uploadSingle, processDocument);
+router.get('/jobs', getJobs);
 router.get('/', getDocuments);
 router.delete('/:filename', deleteDocument);
 

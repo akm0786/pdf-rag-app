@@ -1,0 +1,347 @@
+2026-06-01 12:40:44 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 12:40:44 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 12:40:44 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 13:12:29 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 13:12:29 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 13:14:20 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 13:14:20 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 13:19:44 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 13:19:44 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 13:25:49 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 13:25:49 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 13:25:53 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 13:28:28 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 13:28:28 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 13:28:29 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 13:31:15 [INFO]: Login attempt for: akmakm10074a@gmail.com
+2026-06-01 13:31:15 [INFO]: Password match for akmakm10074a@gmail.com: true
+2026-06-01 13:31:57 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 13:32:29 [INFO]: Enqueued PDF job in BullMQ: JobId=1, DbId=6a1d3c954dd2b86cede10716
+2026-06-01 13:32:29 [INFO]: [Worker] Starting job 1 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 13:32:30 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 13:32:30 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 13:32:31 [INFO]: [Worker] Deleted temporary file at uploads/0bfae35251770cef82b9d9a7400218ae
+2026-06-01 13:35:03 [INFO]: Deleted document Front-End Interview Guide.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 13, Jobs removed: 0
+2026-06-01 13:35:06 [INFO]: Deleted document Abhishek_Mishra_May2026.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 7, Jobs removed: 1
+2026-06-01 13:35:20 [INFO]: Enqueued PDF job in BullMQ: JobId=2, DbId=6a1d3d404dd2b86cede10717
+2026-06-01 13:35:20 [INFO]: [Worker] Starting job 2 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 13:35:21 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 13:35:22 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 13:35:22 [INFO]: [Worker] Deleted temporary file at uploads/9d5fcbb661033249f7e3d346d68dcfc7
+2026-06-01 13:45:13 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:22:20 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:22:20 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:22:20 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:22:41 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:23:31 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent: [400 Bad Request] API key not valid. Please pass a valid API key. [{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_INVALID","domain":"googleapis.com","metadata":{"service":"generativelanguage.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"API key not valid. Please pass a valid API key."}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:25:45 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:25:45 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:25:45 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:26:28 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:26:28 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:26:29 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:26:41 [ERROR]: Refresh token verification failed: invalid signature
+2026-06-01 14:26:49 [INFO]: Login attempt for: akmakm10074a@gmail.com
+2026-06-01 14:26:49 [INFO]: Password match for akmakm10074a@gmail.com: true
+2026-06-01 14:27:39 [INFO]: Deleted document Abhishek_Mishra_May2026.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 7, Jobs removed: 1
+2026-06-01 14:29:08 [INFO]: Enqueued PDF job in BullMQ: JobId=3, DbId=6a1d49db457f4beedcf7b346
+2026-06-01 14:29:08 [INFO]: [Worker] Starting job 3 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:29:08 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 14:29:11 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 14:29:11 [INFO]: [Worker] Deleted temporary file at uploads/174769affb14758d06072f0451c625dd
+2026-06-01 14:29:27 [ERROR]: TypeError: Cannot read properties of undefined (reading 'replace')
+    at new ChatGoogleGenerativeAI (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:428:29)
+    at getChatModel (file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:17:12)
+    at file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:100:27
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-06-01 14:29:27 [ERROR]: TypeError: Cannot read properties of undefined (reading 'replace')
+    at new ChatGoogleGenerativeAI (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:428:29)
+    at getChatModel (file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:17:12)
+    at file:///home/akm0522/Downloads/pdf-rag-app/backend/controllers/chatController.js:100:27
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-06-01 14:31:31 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:31:31 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:31:32 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:31:49 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:31:49 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:31:49 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:32:32 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:32:32 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:32:33 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:33:34 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:33:34 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:34:00 [INFO]: Login attempt for: akmakm10074a@gmail.com
+2026-06-01 14:34:00 [INFO]: Password match for akmakm10074a@gmail.com: true
+2026-06-01 14:34:28 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:35:18 [INFO]: Deleted document Abhishek_Mishra_May2026.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 7, Jobs removed: 1
+2026-06-01 14:35:24 [INFO]: Enqueued PDF job in BullMQ: JobId=4, DbId=6a1d4b5465a226619174ec17
+2026-06-01 14:35:24 [INFO]: [Worker] Starting job 4 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:35:24 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 14:35:25 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 14:35:25 [INFO]: [Worker] Deleted temporary file at uploads/19a38c68dd53e0b7cf3ac3c423fe87c7
+2026-06-01 14:35:34 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:37:02 [INFO]: Enqueued PDF job in BullMQ: JobId=5, DbId=6a1d4bb665a226619174ec1f
+2026-06-01 14:37:02 [INFO]: [Worker] Starting job 5 for file: blogging-introduction.original.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:37:03 [INFO]: [Worker] Document parsed. Created 9 chunks.
+2026-06-01 14:37:03 [INFO]: [Worker] Saved 9 vectors to MongoDB.
+2026-06-01 14:37:03 [INFO]: [Worker] Deleted temporary file at uploads/1a99ac9b81be9bcd888fcbfe1411fc9b
+2026-06-01 14:37:45 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:37:45 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:37:46 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:38:12 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent: [404 Not Found] models/text-embedding-004 is not found for API version v1beta, or is not supported for embedContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async embedContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:1313:22)
+    at async GoogleGenerativeAIEmbeddings._embedQueryContent (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/embeddings.js:59:11)
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:40:07 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:40:07 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:40:08 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:40:14 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:40:14 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:40:15 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:40:44 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:40:45 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:40:45 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:41:16 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:41:16 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:41:17 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:42:08 [ERROR]: MongoNetworkError: getaddrinfo ENOTFOUND ac-c9iqiz7-shard-00-02.rxynryl.mongodb.net
+    at TLSSocket.<anonymous> (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/mongodb/lib/cmap/connect.js:314:44)
+    at Object.onceWrapper (node:events:631:26)
+    at TLSSocket.emit (node:events:509:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+2026-06-01 14:42:29 [INFO]: Upload rejected: File already processed: Abhishek_Mishra_May2026.pdf for user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:42:47 [INFO]: Deleted document Abhishek_Mishra_May2026.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 7, Jobs removed: 1
+2026-06-01 14:42:49 [INFO]: Deleted document blogging-introduction.original.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 9, Jobs removed: 1
+2026-06-01 14:42:53 [INFO]: Enqueued PDF job in BullMQ: JobId=6, DbId=6a1d4d14cd09868bdbd7fb82
+2026-06-01 14:42:53 [INFO]: [Worker] Starting job 6 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:42:53 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 14:42:55 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 14:42:55 [INFO]: [Worker] Deleted temporary file at uploads/97b7db8ebeae527f7ff8ed5f244f2f94
+2026-06-01 14:43:05 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:43:05 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:44:38 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:44:38 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:44:38 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:45:02 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:45:02 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:45:02 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:48:23 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:48:24 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:48:24 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:49:08 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-01 14:49:08 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-01 14:49:09 [INFO]: 🚀 Neural API running on port 3000
+2026-06-01 14:49:35 [INFO]: Login attempt for: akmakm10074a@gmail.com
+2026-06-01 14:49:35 [INFO]: Password match for akmakm10074a@gmail.com: true
+2026-06-01 14:49:44 [INFO]: Deleted document Abhishek_Mishra_May2026.pdf for user 6a059a594334f80f5e1bdd66. Vectors removed: 7, Jobs removed: 1
+2026-06-01 14:49:46 [INFO]: Enqueued PDF job in BullMQ: JobId=7, DbId=6a1d4eb272d88134b649e65e
+2026-06-01 14:49:46 [INFO]: [Worker] Starting job 7 for file: Abhishek_Mishra_May2026.pdf, user: 6a059a594334f80f5e1bdd66
+2026-06-01 14:49:47 [INFO]: [Worker] Document parsed. Created 7 chunks.
+2026-06-01 14:49:49 [INFO]: [Worker] Saved 7 vectors to MongoDB.
+2026-06-01 14:49:49 [INFO]: [Worker] Deleted temporary file at uploads/23c360c2c3d0f575eb2824ba5fe9b603
+2026-06-01 14:51:38 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 21.819194101s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:51:38 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 21.819194101s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:52:25 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 34.219018056s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"34s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 14:52:25 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 34.219018056s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"34s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:40 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:41 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-01 21:46:42 [ERROR]: Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1705:16)
+2026-06-02 17:41:52 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-02 17:41:52 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-02 17:41:55 [INFO]: 🚀 Neural API running on port 3000
+2026-06-02 17:42:35 [INFO]: Login attempt for: akmakm10074a@gmail.com
+2026-06-02 17:42:36 [INFO]: Password match for akmakm10074a@gmail.com: true
+2026-06-02 17:44:37 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 22.584401834s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"22s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:44:37 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 22.584401834s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"22s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:45:06 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 53.732720908s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"53s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 17:45:06 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 53.732720908s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.0-flash","location":"global"}},{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count","quotaId":"GenerateContentInputTokensPerModelPerMinute-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.0-flash"}}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"53s"}]
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 18:00:27 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-02 18:00:27 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-02 18:00:29 [INFO]: 🚀 Neural API running on port 3000
+2026-06-02 18:01:03 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-2.5-flash-preview-05-20 is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 18:01:03 [ERROR]: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:streamGenerateContent?alt=sse: [404 Not Found] models/gemini-2.5-flash-preview-05-20 is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContentStream (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@google/generative-ai/dist/index.mjs:860:22)
+    at async file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/google-genai/dist/chat_models.js:567:23
+    at async pRetry (file:///home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/dist/utils/p-retry/index.js:122:19)
+    at async run (/home/akm0522/Downloads/pdf-rag-app/backend/node_modules/@langchain/core/node_modules/p-queue/dist/index.js:163:29)
+2026-06-02 18:06:39 [INFO]: ⚙️ BullMQ Worker initialized successfully
+2026-06-02 18:06:39 [INFO]: ✅ Redis Connected for BullMQ
+2026-06-02 18:06:40 [INFO]: 🚀 Neural API running on port 3000
+2026-06-02 18:10:36 [INFO]: Enqueued PDF job in BullMQ: JobId=8, DbId=6a1ecf44b1ca68d134e64c69
+2026-06-02 18:10:36 [INFO]: [Worker] Starting job 8 for file: blogging-introduction.original.pdf, user: 6a0c0912a3b653c133358163
+2026-06-02 18:10:36 [INFO]: [Worker] Document parsed. Created 9 chunks.
+2026-06-02 18:10:39 [INFO]: [Worker] Saved 9 vectors to MongoDB.
+2026-06-02 18:10:39 [INFO]: [Worker] Deleted temporary file at uploads/7ebe70712e15a94558e3a0dcd01d7ed5
