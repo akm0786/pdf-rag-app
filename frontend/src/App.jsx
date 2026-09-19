@@ -215,6 +215,25 @@ function App() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        setChat(prev => {
+          const updated = [...prev];
+          const aiIdx = updated.findLastIndex(msg => msg.role === 'ai');
+          if (aiIdx !== -1) {
+            updated[aiIdx] = {
+              role: 'ai',
+              text: data.answer || data.error || (typeof data === 'string' ? data : JSON.stringify(data)),
+              sources: data.sources || [],
+              contextChunks: data.contextChunks || []
+            };
+          }
+          return updated;
+        });
+        return;
+      }
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
       let buffer = '';
@@ -276,6 +295,20 @@ function App() {
           }
         }
       }
+
+      // Safeguard: Ensure message is finalized if stream ended without explicit done event
+      setChat(prev => {
+        const updated = [...prev];
+        const aiIdx = updated.findLastIndex(msg => msg.role === 'ai');
+        if (aiIdx !== -1 && updated[aiIdx].isStreaming) {
+          updated[aiIdx] = {
+            ...updated[aiIdx],
+            isStreaming: false,
+            text: accumulatedText || "No response received."
+          };
+        }
+        return updated;
+      });
 
     } catch (err) {
       console.error(err);

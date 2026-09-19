@@ -19,6 +19,7 @@ frontend/.env.local
 # ========================
 backend/uploads/
 backend/data/*.json
+backend/logs/*.log
 *.pdf
 
 # ========================
