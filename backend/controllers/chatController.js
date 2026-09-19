@@ -69,11 +69,14 @@ const askQuestion = asyncHandler(async (req, res, next) => {
     const sorted = await collection.aggregate(pipeline).toArray();
 
     if (sorted.length === 0) {
-        return res.json({
-            answer: "I couldn't find relevant context in the uploaded documents.",
-            sources: [],
-            contextChunks: []
-        });
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('X-Accel-Buffering', 'no');
+        const fallbackText = "I couldn't find relevant context in the uploaded documents.";
+        res.write(`data: ${JSON.stringify({ text: fallbackText })}\n\n`);
+        res.write(`data: ${JSON.stringify({ done: true, sources: [], contextChunks: [] })}\n\n`);
+        return res.end();
     }
 
     const sourceDocs = [...new Set(sorted.map(s => s.source))];
